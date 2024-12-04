@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="BarCodeDemo.SearchPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+    Title="SearchPage"
+    BackgroundColor="AntiqueWhite">
+
+    <VerticalStackLayout>
+
+        <StackLayout Padding="10" Orientation="Horizontal">
+
+
+            <Button
+                Command="{Binding OpenBarcodeScanPageCommand}"
+                HorizontalOptions="Center"
+                Text="Scan Barcode"
+                VerticalOptions="CenterAndExpand" />
+
+            <!--  Search Bar  -->
+            <SearchBar
+                HorizontalOptions="FillAndExpand"
+                Placeholder="Search for movies..."
+                SearchCommand="{Binding SearchMoviesCommand}"
+                Text="{Binding SearchQuery}"
+                VerticalOptions="Center" />
+
+        </StackLayout>
+
+        <!--  Loading Indicator  -->
+        <ActivityIndicator
+            HorizontalOptions="Center"
+            IsRunning="{Binding IsLoading}"
+            IsVisible="{Binding IsLoading}"
+            VerticalOptions="CenterAndExpand" />
+
+        <CollectionView
+            x:Name="MovieCollectionView"
+            Margin="10"
+            HeightRequest="300"
+            HorizontalScrollBarVisibility="Always"
+            ItemsSource="{Binding Movies}"
+            SelectionMode="None"
+            VerticalScrollBarVisibility="Always">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame
+                        Margin="5"
+                        Padding="10"
+                        BorderColor="LightGray"
+                        CornerRadius="10">
+                        <Grid BackgroundColor="LightGray">
+                            <!--  Define the Grid structure with 2 columns and 4 rows  -->
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <!--  Title Row  -->
+                                <RowDefinition Height="Auto" />
+                                <!--  Popularity Row  -->
+                                <RowDefinition Height="Auto" />
+                                <!--  Release Date Row  -->
+                                <RowDefinition Height="*" />
+                                <!--  Overview Row  -->
+                                <RowDefinition Height="Auto" />
+                                <!--  Button Row  -->
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <!--  Left side for Image  -->
+                                <ColumnDefinition Width="*" />
+                                <!--  Right side for Texts  -->
+                            </Grid.ColumnDefinitions>
+
+                            <!--  Movie Image (Left Side)  -->
+                            <!--<Image
+                                Grid.Row="0"
+                                Grid.RowSpan="5"
+                                Grid.Column="0"
+                                Aspect="AspectFill"
+                                HeightRequest="100"
+                                HorizontalOptions="Center"
+                                Source="{Binding ImageUrl}"
+                                WidthRequest="100" />-->
+
+                            <ffimageloading:CachedImage
+                                Grid.Row="0"
+                                Grid.RowSpan="5"
+                                Grid.Column="0"
+                                Aspect="AspectFill"
+                                CacheDuration="30"
+                                HeightRequest="150"
+                                HorizontalOptions="Center"
+                                Source="{Binding ImageUrl}"
+                                ToolTipProperties.Text="{Binding Title}"
+                                WidthRequest="100" />
+
+
+                            <!--  Movie Title (Top)  -->
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="5"
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                HorizontalOptions="Start"
+                                Text="{Binding Title}"
+                                TextColor="BlueViolet" />
+
+                            <!--  Movie Popularity  -->
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Margin="5"
+                                FontSize="14"
+                                HorizontalOptions="Start"
+                                Text="{Binding popularity, StringFormat='Popularity: {0:N1}'}"
+                                TextColor="Gray" />
+
+                            <!--  Movie Release Date  -->
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Margin="5"
+                                FontSize="14"
+                                HorizontalOptions="Start"
+                                Text="{Binding releaseDate, StringFormat='releaseDate: {0}'}"
+                                TextColor="Gray" />
+
+                            <!--  Movie Description (Below Title)  -->
+                            <Label
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Margin="5"
+                                FontSize="14"
+                                HorizontalOptions="Start"
+                                LineBreakMode="TailTruncation"
+                                MaxLines="2"
+                                Text="{Binding Overview}"
+                                TextColor="Gray" />
+
+                            <!--  View Details Button (Below Description)  -->
+                            <Button
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                BackgroundColor="BlueViolet"
+                                Command="{Binding Source={x:Reference MovieCollectionView}, Path=BindingContext.ViewDetailsCommand}"
+                                CommandParameter="{Binding .}"
+                                CornerRadius="5"
+                                FontSize="14"
+                                HorizontalOptions="Start"
+                                Text="View Details"
+                                TextColor="White"
+                                ToolTipProperties.Text="View Detila Information" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+
+
+
+
+
+    </VerticalStackLayout>
+</ContentPage>

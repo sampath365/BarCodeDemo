@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="BarCodeDemo.MovieDetailPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="{Binding Movie.title}"
+    BackgroundColor="AntiqueWhite">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Command="{Binding BackCommand}"
+            IconImageSource="back_icon.png"
+            Text="Back"  />
+    </ContentPage.ToolbarItems>
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="20">
+            <!--  Loading Indicator  -->
+            <ActivityIndicator IsRunning="{Binding IsLoading}" IsVisible="{Binding IsLoading}" />
+
+            <!--  Movie Details Section  -->
+            <VerticalStackLayout>
+                <Frame
+                    Padding="0"
+                    BorderColor="LightGray"
+                    CornerRadius="10"
+                    HasShadow="True"
+                    HorizontalOptions="Start">
+                    <Image
+                        Aspect="AspectFit"
+                        HeightRequest="200"
+                        Source="{Binding Movie.ImageUrl}" />
+                </Frame>
+
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="24"
+                    Text="{Binding Movie.tagline}" />
+                <Label
+                    FontSize="18"
+                    Text="{Binding Movie.Genre}"
+                    TextColor="Gray" />
+                <Label
+                    FontSize="14"
+                    LineBreakMode="WordWrap"
+                    Text="{Binding Movie.overview}"
+                    TextColor="Black" />
+            </VerticalStackLayout>
+
+            <!--  Cast Details Section  -->
+
+            <HorizontalStackLayout
+                HorizontalOptions="Start"
+                Spacing="10"
+                VerticalOptions="Center">
+                <!--  Title Label  -->
+                <Label
+                    Margin="10"
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    Text="Genres"
+                    VerticalOptions="Center" />
+
+                <!--  CollectionView for Genres  -->
+                <CollectionView ItemsSource="{Binding Movie.genres}" VerticalOptions="Center">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Label
+                                FontAttributes="None"
+                                FontSize="16"
+                                Text="{Binding Name}"
+                                VerticalOptions="Center" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </HorizontalStackLayout>
+
+            <!--  Cast Details Section  -->
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="Cast" />
+            <CollectionView Margin="0" ItemsSource="{Binding Cast}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Padding="10"
+                            BorderColor="LightGray"
+                            CornerRadius="5">
+                            <HorizontalStackLayout Spacing="10">
+                                <Image
+                                    Aspect="AspectFill"
+                                    HeightRequest="50"
+                                    Source="{Binding ImageUrl}"
+                                    WidthRequest="50" />
+                                <VerticalStackLayout>
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="16"
+                                        Text="{Binding Name}" />
+                                    <Label
+                                        FontSize="14"
+                                        Text="{Binding Character}"
+                                        TextColor="Gray" />
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
